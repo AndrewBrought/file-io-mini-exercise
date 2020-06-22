@@ -2,41 +2,69 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileIoMiniExercise {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // TODO: define the path to the instructor-names.txt file
-
+        Path instructorNames = Paths.get("src", "instructor-names.txt");
 
         // TODO: uncomment the following variable declarations
-//        List<Instructor> instructors;
-//        List<String> names = new ArrayList<>();
+        List<Instructor> instructors;
+        List<String> names = new ArrayList<>();
 
         // TODO: read the contents of the instructor-names.txt file and store the list of strings into the 'names' variable
-
+        names = Files.readAllLines(instructorNames);
+        System.out.println(names);
 
         // TODO: assign the 'instructors' variable a list of Instructor objects with names matching the list of strings/names from the text file (the Instructor class has a helpful method for this)
-
+       instructors = Instructor.nameStringsToInstructors(names);
 
         // TODO: greet all instructors by their names
-
+        greetInstructors(instructors);
 
         // TODO: change "Fred" to "David" in the list of Instructor objects
 
+//        for(String name : names){
+//            if(name.equals("Fred")){
+//                names.add("David");
+//                continue;
+//            }
+//            names.add(name);
+//        }
+//        instructors = Instructor.nameStringsToInstructors(names); // is this redundant?
+//        for(Instructor instructor : instructors) {
+//            if (instructor.getName().equals("Fred")) {
+//                instructor.setName("David");
+//            }
+//        }
+
+        changeFredToDavid(instructors);
 
         // TODO: update the list of strings/names ('names' variable) to the latest names from the Instructor objects (the Instructor class has a helpful method for this)
-
+            Instructor.instructorsToNameStrings(instructors);
 
         // TODO: overwrite the instructors-names.txt file with the latest list of names
+        List<String> newNames = new ArrayList<>();
 
+        for(String name : names){
+            if(name.equals("Fred")){
+                newNames.add("David");
+                continue;
+            }
+            newNames.add(name);
+        }
+        System.out.println(newNames);
+        Files.write(instructorNames,newNames);
+//        System.out.println(names);
         // TODO: uncomment the following line
-//        System.out.println("============== after name change...");
+        System.out.println("============== after name change...");
 
         // TODO: greet instructors again (no need to reread the text file again; just use the existing list of instructors in memory)
-
+        greetInstructors(instructors);
 
     }
 
